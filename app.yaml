@@ -1,6 +1,6 @@
-runtime: custom
+runtime: python27
 vm: true
-entrypoint: custom
+api_version: 1
 
 manual_scaling:
   instances: 1
