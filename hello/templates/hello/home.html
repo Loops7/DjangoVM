@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+{% load staticfiles %}
+<title>Hey Joe</title>
+</head>
+<body>
+	<ul>
+	{% for digit in digits%}
+		<li>{{digit}}</li>
+	{% endfor %}	
+	</ul>
+	
+	<img src="{% static 'hello/dodgeball.jpg' %}" alt="Sorry">
+</body>
+</html>
