@@ -7,5 +7,5 @@ from sklearn.datasets import load_digits
 def hey(request):
     digits = load_digits()
     X,y = digits.data, digits.target 
-    y = y[50:60]
+    y = y[20:60:4]
     return render(request, "hello/home.html", {'digits':y})
