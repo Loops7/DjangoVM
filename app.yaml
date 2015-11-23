@@ -1,15 +1,6 @@
-runtime: python27
-api_version: 1
-threadsafe: yes
+runtime: custom
+vm: true
+entrypoint: custom
 
-libraries:
-- name: django
-  version: "latest"
-
-  
-handlers:
-- url: /static
-  static_dir: static
-
-- url: /.*
-  script: DjangoVM.wsgi.application
+manual_scaling:
+  instances: 1
