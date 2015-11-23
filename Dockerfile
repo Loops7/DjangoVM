@@ -24,5 +24,5 @@ RUN pip install -r /app/requirements.txt
 ADD . /app
 
 # Use Gunicorn to serve the application.
-CMD gunicorn DjangoVM.wsgi
+#CMD gunicorn DjangoVM.wsgi
 # [END docker]
