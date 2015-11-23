@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import numpy as np
-#import scipy
+import scipy
 from sklearn.datasets import load_digits
 
 def hey(request):
