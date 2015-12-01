@@ -25,4 +25,5 @@ ADD . /app
 
 # Use Gunicorn to serve the application.
 CMD gunicorn DjangoVM.wsgi
+#CMD python
 # [END docker]
