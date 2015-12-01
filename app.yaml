@@ -1,14 +1,7 @@
 runtime: python27
-vm: true
 api_version: 1
 threadsafe: true
 
-vm_settings:
-  apt_get_install: python-numpy python-scipy python-matplotlib
-  
-manual_scaling:
-  instances: 1
-  
 handlers:
 - url: /static
   static_dir: static
