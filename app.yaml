@@ -9,3 +9,7 @@ handlers:
 - url: /.*
   script: DjangoVM.wsgi.application
   
+ libraries:
+- name: django
+  version: "latest"
+  
