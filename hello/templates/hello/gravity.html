@@ -1,0 +1,136 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<title>Gravity by Brian Cruz</title>
+		<script src="{% static 'hello/jquery-1.11.3.min.js' %}"></script>
+		<script src="{% static 'hello/script.js' %}"></script>
+		<script>
+			var particles = new Array();
+			var mass = 16; 
+			var mouseInitX = 0;
+			var mouseInitY = 0;
+			var currentMouseX = 0;
+			var currentMouseY = 0;
+			var dragging = false;
+			var ctx;
+			
+			function newParticle(m, v, x, y) {
+				var p = new Particle(m, v, x, y);
+				particles[particles.length] = p;
+			}
+			
+			function cloud() {
+				var centerX = window.innerWidth / 2;
+				var centerY = window.innerHeight / 2;
+				for (var i = 0; i < 1000; i++) {
+					var angle = Math.random() * 2 * Math.PI;
+					var dist = Math.pow(Math.random() * 15, 2);
+					var x = centerX + dist * Math.cos(angle);
+					var y = centerY + dist * Math.sin(angle);
+					var vx = dist * Math.sin(angle) / 50;
+					var vy = -dist * Math.cos(angle) / 50;
+					newParticle(2, new Vector(vx, vy), x, y);
+				}
+			}
+		
+			$(document).ready(function (){
+				ctx = $("#canvas")[0].getContext("2d");
+				ctx.canvas.width = window.innerWidth;
+				ctx.canvas.height = window.innerHeight;
+				
+				$("#canvas").mousedown(function (e) {
+					mouseInitX = e.clientX;
+					mouseInitY = e.clientY;
+					dragging = true;
+				});
+				
+				$("#canvas").mouseup(function (e) {
+					var vx = (e.clientX - mouseInitX) / 10;
+					var vy = (e.clientY - mouseInitY) / 10;
+					newParticle(mass, new Vector(vx, vy), mouseInitX, mouseInitY);
+					dragging = false;
+				});
+				
+				$("#canvas").mousemove(function (e) {
+					currentMouseX = e.clientX;
+					currentMouseY = e.clientY;
+				});
+				
+				$(window).bind('mousewheel', function (e) {
+					if (e.originalEvent.wheelDelta / 120 > 0) {
+							mass *= 2;
+					} else {
+							mass /= 2;
+					}
+					if (mass > 32768) { mass = 32768; }
+					if (mass < 2) { mass = 2; }
+					$("#mass-marker").html("Mass: " + mass);
+				});
+				
+				$("body").keyup(function (e) {
+					if (e.which == 32) {
+						cloud();
+					}
+					if (e.which == 38) {
+							mass *= 2;
+					}
+					if (e.which == 40) {
+							mass /= 2;
+					}
+					if (mass > 32768) { mass = 32768; }
+					if (mass < 2) { mass = 2; }
+					$("#mass-marker").html("Mass: " + mass);
+				});
+				
+				t = setInterval(function() {
+					$("#particle-num").html("Bodies: " + particles.length);
+					gravityCalc(particles);
+					ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+					paintParticles(particles);
+					if (dragging) {
+						ctx.beginPath();
+						ctx.moveTo(mouseInitX, mouseInitY);
+						ctx.lineTo(currentMouseX, currentMouseY);
+						ctx.strokeStyle = "white";
+						ctx.stroke();
+					}
+				}, 15);
+			});
+		</script>
+		<style>
+			body {
+				background: black;
+				color: white;
+			}
+			#canvas {
+				width: 100%;
+				height: 100%
+				overflow: hidden;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#info {
+				position: absolute;
+				bottom: 10;
+				left: 10;
+			}
+			#info p {
+				margin: 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<div id="info">
+			<p id="particle-num">Bodies: 0</p>
+			<p id="mass-marker">Mass: 16</p>
+			<p id="instructions">
+				Click to place a body. <br />
+				Scroll or use arrow keys to change mass. <br />
+				Drag to give it a velocity vector. <br />
+				Press space to create a cloud.
+			</p>
+		</div>
+	</body>
+</html>
