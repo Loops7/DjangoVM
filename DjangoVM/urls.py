@@ -20,4 +20,5 @@ import hello.views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', hello.views.hey,name='hey'),
+    url(r'^space/', hello.views.space),
 ]

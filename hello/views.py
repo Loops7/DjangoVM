@@ -9,3 +9,6 @@ def hey(request):
     X,y = digits.data, digits.target 
     y = y[20:60:4]
     return render(request, "hello/home.html", {'digits':y})
+
+def space(request):
+    return render(request,"hello/gravity.html")
